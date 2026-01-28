@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest';
 
-/**
- * Basic test to verify Vitest setup is working correctly
- */
 describe('Test Setup', () => {
   it('should run basic tests', () => {
     expect(true).toBe(true);

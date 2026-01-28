@@ -19,26 +19,9 @@ import type { ReactNode } from 'react';
  * the property holds across all pagination configurations.
  */
 describe('Property-Based Test: Pagination Consistency', () => {
-  let queryClient: QueryClient;
-
   beforeEach(() => {
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-          gcTime: Infinity,
-        },
-      },
-    });
+    // Reset any global state if needed
   });
-
-  const createWrapper = () => {
-    return ({ children }: { children: ReactNode }) => (
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
-    );
-  };
 
   it('should return at most S items for page N with size S (100+ iterations)', { timeout: 30000 }, async () => {
     const iterations = 100;

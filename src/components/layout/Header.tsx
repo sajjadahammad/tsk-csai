@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router';
 import { Button } from '../ui/button';
 import { isAuthenticated, logout } from '@/services/auth-service';
-import { navItems } from './index';
+import { navItems } from "./index"
 
 export function Header() {
   const location = useLocation();
@@ -21,14 +21,12 @@ export function Header() {
       <div className="container mx-auto px-6 py-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="size-8 rounded-full bg-blue-600" />
-          <h1 className="text-2xl font-bold tracking-tight">Frontend Assessment</h1>
+          <h1 className="text-2xl font-bold tracking-tight">csai</h1>
         </div>
-        <p className="text-sm text-muted-foreground font-mono mb-6">
-          React Query + TypeScript + Tailwind CSS
-        </p>
         
-        <nav className="flex flex-wrap gap-2 items-center">
-          {navItems.map(({ path, label, color }) => {
+        <nav className="flex flex-wrap gap-2 items-center pt-3">
+          {navItems.map((item: { path: any; label: any; color: any; }) => {
+            const { path, label, color } = item;
             const isActive = location.pathname === path;
             const activeClasses: Record<string, string> = {
               blue: 'bg-blue-600 text-white shadow-md',

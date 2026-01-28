@@ -7,7 +7,6 @@ export function Footer() {
             <span className="inline-block size-2 rounded-full bg-green-500 animate-pulse" />
             <span>All systems operational</span>
           </div>
-          <span>Built with React, TypeScript, React Query, and Tailwind CSS</span>
         </div>
       </div>
     </footer>

@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router';
 import { login } from '@/services/auth-service';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

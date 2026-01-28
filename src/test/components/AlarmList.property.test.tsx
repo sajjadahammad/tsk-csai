@@ -120,8 +120,6 @@ describe('Property-Based Test: AlarmList', () => {
             // Note: getAllByText might return in DOM order.
             // Assuming Card renders Title text.
 
-            const renderedTitles = cardTitles.map(el => el.textContent);
-
             // This check is slightly loose because 'Alarm 1' text might be inside a deeper node,
             // but getAllByText usually returns the node containing the text.
             // If sorting is correct, the first element should correspond to the newest alarm.

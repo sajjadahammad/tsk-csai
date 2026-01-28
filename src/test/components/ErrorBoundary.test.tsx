@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
-import { Button } from '../../components/ui/button';
 
 // Component that throws an error
 const ThrowError = ({ shouldThrow }: { shouldThrow: boolean }) => {
@@ -44,14 +43,11 @@ describe('ErrorBoundary', () => {
 
     it('should call onReset and reset state when "Try Again" is clicked', () => {
         const onReset = vi.fn();
-        const TestComponent = () => {
-            // We use a simpler approach to test reset:
-            // Render a component that throws initially, but not after reset if we were to change props,
-            // but ErrorBoundary reset just clears internal state.
-            // We need the child to NOT throw on second render.
-            // We can simulate this with a variable outside or just mocking.
-            return <ThrowError shouldThrow={true} />;
-        }
+        // We use a simpler approach to test reset:
+        // Render a component that throws initially, but not after reset if we were to change props,
+        // but ErrorBoundary reset just clears internal state.
+        // We need the child to NOT throw on second render.
+        // We can simulate this with a variable outside or just mocking.
 
         // Actually, simply checking if onReset is called is enough for the prop.
         // But to verify it resets, we typically need a setup where the error condition is cleared.
@@ -65,7 +61,7 @@ describe('ErrorBoundary', () => {
             return <div>Recovered Content</div>;
         };
 
-        const { rerender } = render(
+        render(
             <ErrorBoundary onReset={() => { shouldThrow = false; onReset(); }}>
                 <ControllableThrow />
             </ErrorBoundary>

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useListQuery, useMutation } from '../../hooks/use-data-queries';
+import { useListQuery } from '../../hooks/use-data-queries';
 import type { ReactNode } from 'react';
 
 /**

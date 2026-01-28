@@ -163,7 +163,7 @@ describe('API Client', () => {
         vi.mocked(getAccessToken).mockReturnValue(randomToken);
         
         // Import fresh apiClient instance
-        const { apiClient, axiosInstance } = await import('../../services/api-client');
+        await import('../../services/api-client');
         
         // Get the request interceptor function
         const requestInterceptor = mockAxiosInstance._requestInterceptor;
@@ -221,7 +221,7 @@ describe('API Client', () => {
         // Property: Custom headers should be preserved
         if (config?.headers) {
           Object.keys(config.headers).forEach(key => {
-            expect(interceptedConfig.headers[key]).toBe(config.headers[key]);
+            expect(interceptedConfig.headers[key]).toBe((config.headers as Record<string, string>)[key]);
           });
         }
       }
@@ -234,8 +234,8 @@ describe('API Client', () => {
         // Mock authService to return null (no token)
         vi.mocked(getAccessToken).mockReturnValue(null);
         
-        // Import apiClient instance
-        const { apiClient } = await import('../../services/api-client');
+        // Import apiClient instance (needed for side effects)
+        await import('../../services/api-client');
         
         // Generate random request configuration
         const requestMethods = ['get', 'post', 'put', 'patch', 'delete'] as const;
@@ -276,7 +276,7 @@ describe('API Client', () => {
         // UUID-like tokens
         () => `${Math.random().toString(36).substring(2, 10)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}`,
         // Base64-like tokens
-        () => Buffer.from(`token_${Math.random()}_${Date.now()}`).toString('base64'),
+        () => btoa(`token_${Math.random()}_${Date.now()}`),
         // Simple alphanumeric tokens
         () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
         // Tokens with special characters (URL-safe)
@@ -291,8 +291,8 @@ describe('API Client', () => {
         // Mock authService to return the random token
         vi.mocked(getAccessToken).mockReturnValue(randomToken);
         
-        // Import apiClient instance
-        const { apiClient } = await import('../../services/api-client');
+        // Import apiClient instance (needed for side effects)
+        await import('../../services/api-client');
         
         // Get the request interceptor
         const requestInterceptor = mockAxiosInstance._requestInterceptor;
@@ -331,7 +331,7 @@ describe('API Client', () => {
             const token = `token_${testIndex}_${method}`;
             vi.mocked(getAccessToken).mockReturnValue(token);
             
-            const { apiClient } = await import('../../services/api-client');
+            await import('../../services/api-client');
             const requestInterceptor = mockAxiosInstance._requestInterceptor;
             
             const mockConfig: any = {
@@ -377,7 +377,7 @@ describe('API Client', () => {
         const token = `token_${i}_${method}`;
         vi.mocked(getAccessToken).mockReturnValue(token);
         
-        const { apiClient } = await import('../../services/api-client');
+        await import('../../services/api-client');
         const requestInterceptor = mockAxiosInstance._requestInterceptor;
         
         const mockConfig: any = {
@@ -418,7 +418,7 @@ describe('API Client', () => {
     });
 
     it('should trigger token refresh on 401 response', async () => {
-      const { apiClient } = await import('../../services/api-client');
+      await import('../../services/api-client');
       
       // Mock a 401 error
       const error401 = {
@@ -453,7 +453,7 @@ describe('API Client', () => {
     });
 
     it('should retry original request after successful token refresh', async () => {
-      const { apiClient } = await import('../../services/api-client');
+      await import('../../services/api-client');
       
       const newToken = 'new-access-token-12345';
       
@@ -503,7 +503,7 @@ describe('API Client', () => {
     });
 
     it('should clear auth and redirect on failed token refresh', async () => {
-      const { apiClient } = await import('../../services/api-client');
+      await import('../../services/api-client');
       
       // Mock a 401 error
       const error401 = {
@@ -541,7 +541,7 @@ describe('API Client', () => {
     });
 
     it('should not retry if request already has _retry flag', async () => {
-      const { apiClient } = await import('../../services/api-client');
+      await import('../../services/api-client');
       
       // Clear previous calls
       vi.clearAllMocks();
@@ -579,7 +579,7 @@ describe('API Client', () => {
     });
 
     it('should queue multiple requests during token refresh', async () => {
-      const { apiClient } = await import('../../services/api-client');
+      await import('../../services/api-client');
       
       const newToken = 'new-access-token-queue-test';
       
@@ -624,7 +624,7 @@ describe('API Client', () => {
       const promise2 = errorInterceptor(error2);
       
       // Wait for both to complete
-      const [result1, result2] = await Promise.all([promise1, promise2]);
+      await Promise.all([promise1, promise2]);
       
       // Verify that refreshAccessToken was called only once
       expect(refreshAccessToken).toHaveBeenCalledTimes(1);
@@ -644,7 +644,7 @@ describe('API Client', () => {
       // Reset modules to get a fresh instance
       vi.resetModules();
       
-      const { apiClient } = await import('../../services/api-client');
+      await import('../../services/api-client');
       
       // Clear all previous mock calls
       vi.clearAllMocks();
@@ -702,7 +702,7 @@ describe('API Client', () => {
     });
 
     it('should handle non-401 errors without triggering refresh', async () => {
-      const { apiClient } = await import('../../services/api-client');
+      await import('../../services/api-client');
       
       // Mock various non-401 errors
       const errors = [
@@ -751,7 +751,7 @@ describe('API Client', () => {
     });
 
     it('should format error responses correctly', async () => {
-      const { apiClient } = await import('../../services/api-client');
+      await import('../../services/api-client');
       
       // Get the response error interceptor
       const errorInterceptor = mockAxiosInstance._responseErrorInterceptor;
